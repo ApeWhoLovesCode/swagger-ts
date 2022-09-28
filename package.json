@@ -1,0 +1,23 @@
+{
+  "name": "node-test",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "generate": "openapi --input ./assets/api.json --output ./src/generated"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "fs": "^0.0.1-security",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "openapi-typescript": "^5.4.1",
+    "swagger-typescript-api": "^10.0.1"
+  },
+  "devDependencies": {
+    "openapi-typescript-codegen": "^0.23.0"
+  }
+}

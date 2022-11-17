@@ -1,6 +1,5 @@
 const { generateApi } = require('swagger-typescript-api');
 const path = require('path');
-const { delPath } = require('../utils/fs.js')
 const outputDir = path.resolve(__dirname, "../src/s-t-api")
 
 /** 
@@ -8,7 +7,6 @@ const outputDir = path.resolve(__dirname, "../src/s-t-api")
  */
 
 /* NOTE: all fields are optional expect one of `output`, `url`, `spec` */
-// delPath(outputDir)
 generateApi({
   input: path.resolve(__dirname, "../assets/api.json"),
   // url: 'https://dev-api.lightwork.com.cn/api-doc/#/',

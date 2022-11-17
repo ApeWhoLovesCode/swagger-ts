@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "g": "node ./swagger-typescript-api/index",
     "generate": "openapi --input ./assets/api.json --output ./src/generated"
   },
   "dependencies": {

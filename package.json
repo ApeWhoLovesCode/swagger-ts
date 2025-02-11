@@ -1,11 +1,12 @@
 {
-  "name": "node-test",
-  "version": "0.0.0",
+  "name": "swagger-ts",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "g": "node ./swagger-typescript-api/index",
-    "generate": "openapi --input ./assets/api.json --output ./src/generated"
+    "g": "npx swagger-typescript-api -p ./assets/swagger.json -o ./src -n api.ts",
+    "g-old": "node ./swagger-typescript-api/index",
+    "generate": "openapi --input ./assets/swagger.json --output ./src/generated"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,7 +17,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "openapi-typescript": "^5.4.1",
-    "swagger-typescript-api": "^10.0.1"
+    "swagger-typescript-api": "^13.0.23"
   },
   "devDependencies": {
     "openapi-typescript-codegen": "^0.23.0"

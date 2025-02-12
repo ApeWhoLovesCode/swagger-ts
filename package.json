@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "g": "npx swagger-typescript-api -p ./assets/swagger.json -o ./src -n api.ts",
+    "gc": "node ./swaggerTemplate/index",
     "g-old": "node ./swagger-typescript-api/index",
     "generate": "openapi --input ./assets/swagger.json --output ./src/generated"
   },

@@ -13,35 +13,50 @@
     }
   },
   "host": "live-gw-dev.vzan.com",
-  "basePath": "/health",
+  "basePath": "/datalive",
   "schemes": [],
-  "consumes": ["*/*"],
-  "produces": ["*/*"],
+  "consumes": [
+    "*/*"
+  ],
+  "produces": [
+    "*/*"
+  ],
   "paths": {
-    "/v1/h5/column-data/getLowerAgentCategoryList": {
-      "get": {
-        "tags": ["H5-栏目管理-数据"],
-        "summary": "查询代理以及下级代理的所属分类",
-        "description": "查询代理以及下级代理的所属分类",
-        "operationId": "getLowerAgentCategoryListUsingGET",
-        "produces": ["*/*"],
+    "/v1/admin/analysis/saveDataTarget": {
+      "post": {
+        "tags": [
+          "商品数据分析"
+        ],
+        "summary": "保存指标saveDataTarget",
+        "operationId": "saveDataTargetUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
         "parameters": [
           {
-            "name": "zbId",
-            "in": "query",
-            "description": "zbId",
+            "in": "body",
+            "name": "dto",
+            "description": "dto",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "originalRef": "DataTargetDTO",
+              "$ref": "#/definitions/DataTargetDTO"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "originalRef": "ReturnMsg«List«ZbHealthAgentCategory对象»»",
-              "$ref": "#/definitions/ReturnMsg«List«ZbHealthAgentCategory对象»»"
+              "originalRef": "ReturnMsg«object»",
+              "$ref": "#/definitions/ReturnMsg«object»"
             }
+          },
+          "201": {
+            "description": "Created"
           },
           "401": {
             "description": "Unauthorized"
@@ -55,7 +70,9 @@
         },
         "security": [
           {
-            "Authorization": ["global"]
+            "Authorization": [
+              "global"
+            ]
           }
         ],
         "deprecated": false,
@@ -64,7 +81,53 @@
     }
   },
   "definitions": {
-    "ReturnMsg«List«ZbHealthAgentCategory对象»»": {
+    "DataTargetDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "id，为空或为0时新增，否则修改",
+          "refType": null
+        },
+        "source": {
+          "type": "integer",
+          "format": "int32",
+          "description": "来源:1-PC代理中心",
+          "refType": null
+        },
+        "targetList": {
+          "type": "array",
+          "description": "指标列表",
+          "items": {
+            "originalRef": "DataTargetData",
+            "$ref": "#/definitions/DataTargetData"
+          },
+          "refType": "DataTargetData"
+        },
+        "tpId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "tpId",
+          "refType": null
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "类型 (1 商品分析 2 商品明细 3 用户明细 4直播分析-商品分析 5:数据-直播分析 6 数据-直播分析-频道分析 7 用户管理-直播间用户, 11 大健康 客户列表)",
+          "refType": null
+        },
+        "zbId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "zbId",
+          "refType": null
+        }
+      },
+      "title": "DataTargetDTO"
+    },
+    "ReturnMsg«object»": {
       "type": "object",
       "properties": {
         "Msg": {
@@ -77,12 +140,8 @@
           "description": "0正常返回;非0错误"
         },
         "dataObj": {
-          "type": "array",
-          "description": "返回对象",
-          "items": {
-            "originalRef": "ZbHealthAgentCategory对象",
-            "$ref": "#/definitions/ZbHealthAgentCategory对象"
-          }
+          "type": "object",
+          "description": "返回对象"
         },
         "isok": {
           "type": "boolean",
@@ -92,55 +151,56 @@
           "type": "string"
         }
       },
-      "title": "ReturnMsg«List«ZbHealthAgentCategory对象»»"
+      "title": "ReturnMsg«object»"
     },
-    "ZbHealthAgentCategory对象": {
+    "DataTargetData": {
       "type": "object",
       "properties": {
-        "createTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "创建时间",
-          "refType": null
+        "children": {
+          "type": "array",
+          "items": {
+            "originalRef": "DataTargetChildren",
+            "$ref": "#/definitions/DataTargetChildren"
+          },
+          "refType": "DataTargetChildren"
         },
-        "deleted": {
+        "selectList": {
+          "type": "array",
+          "description": "选择列表-涉及排序 - 针对type=9来用",
+          "items": {
+            "type": "string"
+          },
+          "refType": "string"
+        },
+        "type": {
           "type": "integer",
           "format": "int32",
-          "description": "0 正常 1删除",
+          "description": "分类名 0未分类  1浏览 2加购 3下单 4成交 5退款",
           "refType": null
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "分类id",
+        }
+      },
+      "title": "DataTargetData"
+    },
+    "DataTargetChildren": {
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "type": "string",
+          "description": "关键字英文",
           "refType": null
         },
         "name": {
           "type": "string",
-          "description": "分类名称",
+          "description": "名字",
           "refType": null
         },
-        "sort": {
-          "type": "integer",
-          "format": "int32",
-          "description": "排序",
-          "refType": null
-        },
-        "updateTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "更新时间",
-          "refType": null
-        },
-        "zbId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "直播间",
+        "selected": {
+          "type": "boolean",
+          "description": "是否选择",
           "refType": null
         }
       },
-      "title": "ZbHealthAgentCategory对象",
-      "description": "健康直播代理员分类"
+      "title": "DataTargetChildren"
     }
   }
 }
